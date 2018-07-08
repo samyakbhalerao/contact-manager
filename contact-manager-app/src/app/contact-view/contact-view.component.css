@@ -1,0 +1,33 @@
+div {
+    display: flex;
+  }
+  
+  input {
+    border: none;
+    background: none;
+    padding: 0;
+    outline: none;
+    font: inherit;
+    text-align: center;
+  }
+  
+  span {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+  
+  :host.floating span {
+    opacity: 1;
+  }
+
+  table {
+    width: 100%;
+  }
+  .econtact-view-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contact-view-container > * {
+    width: 100%;
+  }

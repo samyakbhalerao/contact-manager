@@ -1,0 +1,37 @@
+<div class="edit-dialog-container">
+<h1 mat-dialog-title>Edit Contact</h1>
+<div mat-dialog-content>
+  <div class="edit-contact-container">
+    <form [formGroup]="contactDetailsForm">
+      <mat-form-field>
+        <input matInput placeholder="First Name" formControlName="firstName" >
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Last Name" formControlName="lastName">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Contact No" formControlName="contactNo">
+      </mat-form-field>
+
+   <!--   <mat-form-field>
+        <input matInput placeholder="Department" formControlName="department">
+      </mat-form-field>-->
+      <mat-form-field>
+      <mat-select placeholder="Select" formControlName="status">
+        <mat-option value="active">Active</mat-option>
+        <mat-option value="inactive">Inactive</mat-option>
+      </mat-select>
+      </mat-form-field>
+      </form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="closeDialog()">Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="data.name" (click)="saveEditedContact(contactDetailsForm.value)" cdkFocusInitial>Save</button>
+</div>
+</div>
