@@ -1,6 +1,10 @@
-<div class="container-login">
-  <div class="card">
-      <form [formGroup]="loginForm">
+<div class="container-login ">
+    <mat-card>
+        <mat-card-title >
+          <h4>Sign In</h4>
+        </mat-card-title>
+        <mat-card-content class="mat-elevation-z8">
+      <form [formGroup]="loginForm" >
       <mat-form-field>
           <input matInput placeholder="Username" type="text" class="example-right-align" formControlName="username">
         </mat-form-field>
@@ -10,5 +14,6 @@
           <button mat-raised-button  (click)="authenticate(loginForm.value)" [disabled]="!loginForm.valid">Login</button>
         </div>
         </form>
-  </div>
+      </mat-card-content>
+      </mat-card>
 </div>
