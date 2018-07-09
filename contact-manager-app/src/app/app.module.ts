@@ -10,6 +10,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { RouterModule, Routes } from '@angular/router';
 import { NewcontactComponent } from './newcontact/newcontact.component';
 import { ContactViewComponent } from './contact-view/contact-view.component';
+import { AuthGuard } from './auth.gaurd';
 import { EditContactDialogComponent } from './edit-contact-dialog/edit-contact-dialog.component';
 import {
   MatAutocompleteModule,
@@ -62,11 +63,8 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
-
     FormsModule,
-
     ReactiveFormsModule,
-
     HttpModule,
     MatAutocompleteModule,
     MatBadgeModule,
@@ -106,9 +104,7 @@ import {
   ],
   exports: [
     RouterModule,
- 
     FormsModule,
-
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatBadgeModule,
@@ -148,7 +144,7 @@ import {
 
   ],
   entryComponents: [EditContactDialogComponent],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

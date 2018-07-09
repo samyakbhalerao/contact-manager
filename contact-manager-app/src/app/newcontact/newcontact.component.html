@@ -34,10 +34,10 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button>
+      <button mat-raised-button (click)="contactDetailsForm.reset()">
         Clear
       </button>
-      <button mat-raised-button (click)="addContact(contactDetailsForm.value)">
+      <button mat-raised-button (click)="addContact(contactDetailsForm.value)" [disabled]="!contactDetailsForm.valid">
         Save
       </button>
     </mat-card-actions>

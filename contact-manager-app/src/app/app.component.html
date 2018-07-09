@@ -1,13 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
     
-  <mat-toolbar color="primary">Contact Manager</mat-toolbar>
+  <mat-toolbar color="primary">
+   
+   <mat-toolbar-row>
+      <span>{{title}} </span>
+      <span class="example-spacer"></span>
+      <button class="logout-btn" *ngIf="loginStatus" mat-raised-button (click)="logout()" color="warn">Logout</button>
+     
+    </mat-toolbar-row>
+  </mat-toolbar>
   
 </div>
 
 <div>
-    <a routerLink="/login" >Login</a>
-    <a routerLink="/dashboard" >Dashboard</a>
-    
-    <router-outlet></router-outlet>
+ <router-outlet></router-outlet>
 </div>

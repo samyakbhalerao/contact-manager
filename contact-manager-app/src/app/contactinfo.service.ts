@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { EmployeeContactData } from './model/employee.contact'
 import { Http, RequestOptions, Headers } from '@angular/http';
-import { Observable } from "rxjs";
+import { Observable , BehaviorSubject} from "rxjs";
 import { map } from 'rxjs/operators';
-import { ContactViewComponent } from './contact-view/contact-view.component';
-import { EmitterService } from './emitter.service';
+
 //All URL's for server
 const endpoints = {
   contactList: "http://localhost:3000/api/v1/contactlist",
-  login: "http://localhost:3000/api/v1/auth",
   contact: "http://localhost:3000/api/v1/contact"
 };
 
@@ -20,14 +18,19 @@ export class ContactinfoService {
   headers: Headers;
   options: RequestOptions;
   contactDataList: EmployeeContactData[];
-  contactListObserver: Observable<EmployeeContactData[]>;
+  contactListObserver: Observable<string>;
+  updateListSrc : BehaviorSubject<string>;
+  
   constructor(private http: Http) {
     this.headers = new Headers();
     this.headers.append('Content-Type', 'application/json');
     this.options = new RequestOptions({ headers: this.headers });
-
+    this.updateListSrc = new BehaviorSubject('UpdateOperation');
+    this.contactListObserver = this.updateListSrc.asObservable();
   }
-
+  updateCompleted(msg : any){
+    this.updateListSrc.next(msg);
+  }
   getContactInfo(): Observable<EmployeeContactData[]> {
     return this.http.get(endpoints.contactList, this.options).pipe(
       map((res: Response) => res.json()),
@@ -43,18 +46,23 @@ export class ContactinfoService {
   }
 
   //Add new contact
-  addContact(contactData: EmployeeContactData): void {
+  addContact(contactData: EmployeeContactData): Observable<any> {
     console.log(contactData);
-    this.http.post(endpoints.contact, contactData, this.options).subscribe((res) => {
-
-      if (res.status == 200) {
-        // this.contactInfo.push(res.json());
-      }
-    });
+    return this.http.post(endpoints.contact, contactData, this.options).pipe(
+      map((res: Response) => res.json()),
+    );
   }
   //setContactInfo
   setContactInfo(contactData: EmployeeContactData[]) {
     this.contactInfo = contactData;
+  }
+  //remove record
+  deleteContact(id: string): Observable<any> {
+    console.log("id",id);
+    return this.http.delete(endpoints.contact+`/${id}`,this.options);
+   //.pipe(
+    //  map((res:Response)=>res.json()),
+   // );
   }
   //Get Contact by id
   getContactById(id: string): EmployeeContactData {

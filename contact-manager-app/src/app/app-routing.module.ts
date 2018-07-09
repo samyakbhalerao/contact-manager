@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from "./login/login.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-
+import { AuthGuard } from './auth.gaurd';
 const appRoutes: Routes = [
     {
       path: 'login',
@@ -10,7 +10,12 @@ const appRoutes: Routes = [
     },
     {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+         canActivate: [AuthGuard] 
+    },
+    { 
+        path: '**',
+        redirectTo: 'dashboard' 
     }
   ];
   
@@ -24,8 +29,7 @@ const appRoutes: Routes = [
         RouterModule
     ],
     providers : [
-     //   CanDeactivateGuard
-    ]
+         ]
 })
 export class AppRoutingModule{
 

@@ -3,5 +3,6 @@ module.exports = {
     'apiKey': '?apiKey=qA7GGPzDgWBrG-oOxfIqF36Kyt710ufD',
     'dbName': '/myorgdb',
     'contactCollection':'/contactinfo',
-    'userCollection':'/user'
+    'userCollection':'/user',
+    'secret': 'supersecrettoken'
 };

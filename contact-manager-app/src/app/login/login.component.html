@@ -1,14 +1,14 @@
 <div class="container-login">
   <div class="card">
+      <form [formGroup]="loginForm">
       <mat-form-field>
-          <input matInput placeholder="Username" type="text" class="example-right-align" [(ngModel)]="username">
+          <input matInput placeholder="Username" type="text" class="example-right-align" formControlName="username">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="password">
-          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <button mat-raised-button type="submit" value="Login" (click)="authenticate(userlogin.value)">Login</button>
-        </mat-form-field>
+          <input matInput placeholder="Enter your password" [type]="password" formControlName="password">    </mat-form-field>
+        <div mat-dialog-actions>
+          <button mat-raised-button  (click)="authenticate(loginForm.value)" [disabled]="!loginForm.valid">Login</button>
+        </div>
+        </form>
   </div>
 </div>

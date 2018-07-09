@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { ContactinfoService } from '../contactinfo.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatInputModule, MatFormFieldControl, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatFormFieldControl, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EmployeeContactData } from '../model/employee.contact';
 
 @Component({
@@ -13,8 +13,8 @@ import { EmployeeContactData } from '../model/employee.contact';
 export class EditContactDialogComponent implements OnInit {
   contactDetailsForm: FormGroup;
   prevContactData: EmployeeContactData;
-  @Input() childMessage: string;
-  @Output() messageEvent = new EventEmitter<string>();
+  updateCompleted:boolean;
+ 
   constructor(private contactInfoService: ContactinfoService, public dialogRef: MatDialogRef<EditContactDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EmployeeContactData) {
     this.contactDetailsForm = new FormGroup({
@@ -42,7 +42,8 @@ export class EditContactDialogComponent implements OnInit {
       this.contactInfoService.updateContactInfo(contact).subscribe(
         data => {
           console.log("Update success:", data);
-          this.messageEvent.emit();
+          this.contactInfoService.updateCompleted(data);
+         
         }, //Bind to view
         err => {
           // Log errors if any
