@@ -1,4 +1,4 @@
-<div class="contact-view-container">
+<div class="contact-view-container mat-elevation-z8">
   <mat-card>
 
     <mat-card-title>
@@ -15,35 +15,39 @@
           <!-- ID Column -->
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-            <td mat-cell *matCellDef="let row; let i = index;"> {{i+1}} </td>
+            <td mat-cell *matCellDef="let row; let i = index;">
+                <span class="mobile-label">ID:</span>
+              {{i+1}}
+               </td>
           </ng-container>
 
           <!-- Name Column -->
           <ng-container matColumnDef="Name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.firstName}} </td>
+            <td mat-cell *matCellDef="let row"><span class="mobile-label">Name:</span> {{row.firstName}} </td>
           </ng-container>
 
           <!-- Color Column -->
           <ng-container matColumnDef="Email">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-            <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+            <td mat-cell *matCellDef="let row"><span class="mobile-label">Email:</span> {{row.email}} </td>
           </ng-container>
 
           <!-- Color Column -->
           <ng-container matColumnDef="Status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-            <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+            <td mat-cell *matCellDef="let row"><span class="mobile-label">Status:</span> {{row.status}} </td>
           </ng-container>
           <!-- Color Column -->
           <ng-container matColumnDef="Contact No">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact No. </th>
-            <td mat-cell *matCellDef="let row"> {{row.contactNo}} </td>
+            <td mat-cell *matCellDef="let row"><span class="mobile-label">Contact No:</span> {{row.contactNo}} </td>
           </ng-container>
 
           <ng-container matColumnDef="Action">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
             <td mat-cell *matCellDef="let row;  ">
+                <span class="mobile-label">Action</span>
               <button mat-raised-button (click)="removeContact(row._id['$oid'])">Delete </button>
               <button mat-raised-button (click)="updateContact(row._id['$oid'])">Edit </button>
             </td>
