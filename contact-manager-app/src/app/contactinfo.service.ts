@@ -35,13 +35,10 @@ export class ContactinfoService {
 
   }
   //update contact
-  updateContactInfo(contactData: EmployeeContactData): void {
-    this.http.put(endpoints.contact, contactData).subscribe((res) => {
-      console.log(res);
-      //this.contactInfo.push(contactData);
-      console.log(EmitterService.get("CONTACT_COMPONENT_LIST"));
-       EmitterService.get("CONTACT_COMPONENT_LIST").emit();
-    });
+  updateContactInfo(contactData: EmployeeContactData): Observable<any> {
+    return this.http.put(endpoints.contact, contactData).pipe(
+      map((res: Response) => res.json()),
+    );
 
   }
 

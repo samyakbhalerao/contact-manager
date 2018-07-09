@@ -4,6 +4,7 @@ import { ContactinfoService } from '../contactinfo.service';
 import { EmitterService } from '../emitter.service';
 import { EmployeeContactData } from '../model/employee.contact';
 import { EditContactDialogComponent } from '../edit-contact-dialog/edit-contact-dialog.component';
+
 import { Observable } from "rxjs";
 @Component({
   selector: 'app-contact-view',
@@ -19,19 +20,21 @@ export class ContactViewComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() listId: string;
- 
+  @ViewChild(EditContactDialogComponent) child;
   constructor(private contactInfoService: ContactinfoService, public dialog: MatDialog) {
     this.contactInfo$ = this.contactInfoService.getContactInfo();
     this.listId = "CONTACT_COMPONENT_LIST";
 
   }
-
+  receiveMessage($event) {
+    console.log("Recieve msg");
+  }
   ngOnInit() {
     this.getContactInfo();
-    setInterval(()=>{
+    setInterval(() => {
       console.log("interval");
       EmitterService.get(this.listId).emit();
-    },10000);
+    }, 10000);
   }
   ngOnChanges(changes: any) {
     // Listen to the 'list'emitted event so as populate the model
@@ -45,18 +48,18 @@ export class ContactViewComponent implements OnInit, OnChanges {
   getContactInfo(): void {
     this.contactInfoService.getContactInfo()
       .subscribe(
-        data => {
-          this.contactInfo = data;
-          console.log(data);
-          this.dataSource = new MatTableDataSource(this.contactInfo);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.contactInfoService.setContactInfo(this.contactInfo);
-        }, //Bind to view
-        err => {
-          // Log errors if any
-          console.log(err);
-        });
+      data => {
+        this.contactInfo = data;
+        console.log(data);
+        this.dataSource = new MatTableDataSource(this.contactInfo);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.contactInfoService.setContactInfo(this.contactInfo);
+      }, //Bind to view
+      err => {
+        // Log errors if any
+        console.log(err);
+      });
 
     // return this.contactInfo;
   }

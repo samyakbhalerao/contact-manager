@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input, EventEmitter, Output } from '@angular/core';
 import { ContactinfoService } from '../contactinfo.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatInputModule, MatFormFieldControl, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -13,6 +13,8 @@ import { EmployeeContactData } from '../model/employee.contact';
 export class EditContactDialogComponent implements OnInit {
   contactDetailsForm: FormGroup;
   prevContactData: EmployeeContactData;
+  @Input() childMessage: string;
+  @Output() messageEvent = new EventEmitter<string>();
   constructor(private contactInfoService: ContactinfoService, public dialogRef: MatDialogRef<EditContactDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EmployeeContactData) {
     this.contactDetailsForm = new FormGroup({
@@ -37,7 +39,16 @@ export class EditContactDialogComponent implements OnInit {
     console.log("Edited Contact:", contact);
     if (this.compareContactDetails(contact)) {
       contact._id = this.prevContactData._id;
-      this.contactInfoService.updateContactInfo(contact);
+      this.contactInfoService.updateContactInfo(contact).subscribe(
+        data => {
+          console.log("Update success:", data);
+          this.messageEvent.emit();
+        }, //Bind to view
+        err => {
+          // Log errors if any
+          console.log(err);
+        });;
+    
     }
     console.log("Record edited:" + this.compareContactDetails(contact));
 
