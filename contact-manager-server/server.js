@@ -45,20 +45,19 @@ app.get("/userData", (req, res) => {
 //Login API
 app.post("/api/v1/auth", (req, res) => {
     console.log("=>",req.body);
-    let query = `&q={"username":"${req.body.username}","password":"${req.body.password}"}`;
+    let query = `&q={"username":"${req.body.username}","password":"${req.body.password}"}&c=true`;
    
     options.uri = dbConfig.dbPathUrl + dbConfig.userCollection + dbConfig.apiKey + query;
     options.method = "GET";
-   
+   console.log(options.uri);
     request(options).then((data) =>{
          console.log("==>",data);
-         var token = jwt.sign({ id: req.body.username }, dbConfig.secret, {
-            expiresIn: 86400 // expires in 24 hours
-          });
-         //let resObj = {};
-         if(data.length){
-             //resObj.status = 200;
-             //resObj.data ={"token":1234};
+
+         console.log(typeof data);
+         if(parseInt(data)){
+            var token = jwt.sign({ id: req.body.username }, dbConfig.secret, {
+                expiresIn: 86400 // expires in 24 hours
+              });
              res.status(200).send({ auth: true, token: token });
          }else{
             res.sendStatus(401);        
@@ -130,4 +129,4 @@ app.put("/api/v1/contact", (req, res) => {
    
 });
 
-app.listen(8080);
+app.listen(process.env.port||3000);

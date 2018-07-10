@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
-import { MatFormFieldControl } from '@angular/material';
+import { MatFormFieldControl ,MatSnackBar} from '@angular/material';
 import { FormControl, FormGroup ,Validators} from '@angular/forms';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private authService:AuthenticationService) { 
+    private authService:AuthenticationService,
+    private snackBar : MatSnackBar) { 
       this.loginForm = new FormGroup({
         username: new FormControl('',[Validators.required]),
         password: new FormControl('',[Validators.required]),
@@ -45,6 +47,8 @@ export class LoginComponent implements OnInit {
        // this.alertService.error(error);
        console.log(error); 
        this.loading = false;
+       this.loginForm.reset();
+       this.openSnackBar("Access Denied",'OK');
     }
     );
   }
@@ -53,4 +57,9 @@ export class LoginComponent implements OnInit {
     return "Incorrect EmailId";
   }
 
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 }

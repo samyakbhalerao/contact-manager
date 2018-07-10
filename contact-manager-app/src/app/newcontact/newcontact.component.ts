@@ -30,8 +30,9 @@ export class NewcontactComponent implements OnInit {
     console.log(this.contactDetailsForm);
     
     this.contactInfoService.addContact(newContact).subscribe((res) => {
-         this.openSnackBar("New Contact Added","OK");
-        console.log(res);
+         this.contactDetailsForm.reset();
+         this.openSnackBar("New Contact Added","OK");  
+         console.log(res);
     });
    
   }
