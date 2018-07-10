@@ -12,6 +12,7 @@ import {MatSnackBar} from '@angular/material';
 
 export class NewcontactComponent implements OnInit {
   contactDetailsForm;
+  loading : boolean;
   constructor(private contactInfoService: ContactinfoService,public snackBar: MatSnackBar) { 
     this.contactDetailsForm = new FormGroup({
       firstName: new FormControl('',[Validators.required,Validators.minLength(1)]),
@@ -20,7 +21,9 @@ export class NewcontactComponent implements OnInit {
       email: new FormControl('',[Validators.required]),
       department: new FormControl('',[Validators.required]),
       status: new FormControl('',[Validators.required])
+
    });
+   this.loading = false;
   }
 
   ngOnInit() {
@@ -28,9 +31,12 @@ export class NewcontactComponent implements OnInit {
 
   addContact(newContact) {
     console.log(this.contactDetailsForm);
-    
+    this.contactDetailsForm.disable();
+    this.loading =true;
     this.contactInfoService.addContact(newContact).subscribe((res) => {
          this.contactDetailsForm.reset();
+         this.loading=false;
+         this.contactDetailsForm.enable()
          this.openSnackBar("New Contact Added","OK");  
          console.log(res);
     });

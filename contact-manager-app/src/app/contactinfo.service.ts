@@ -6,8 +6,8 @@ import { map } from 'rxjs/operators';
 
 //All URL's for server
 const endpoints = {
-  contactList: "/api/v1/contactlist",
-  contact: "/api/v1/contact"
+  contactList: "http://localhost:3000/api/v1/contactlist",
+  contact: "http://localhost:3000/api/v1/contact"
 };
 
 @Injectable({

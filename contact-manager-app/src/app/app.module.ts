@@ -49,6 +49,7 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {
     DashboardComponent,
     NewcontactComponent,
     ContactViewComponent,
-    EditContactDialogComponent
+    EditContactDialogComponent,
+    SpinnerComponent
   ],
   imports: [
     AppRoutingModule,

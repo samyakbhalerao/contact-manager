@@ -15,12 +15,13 @@ export class ContactViewComponent implements OnInit, OnChanges {
   displayedColumns: string[] = ['id', 'Name', 'Email', 'Contact No', 'Status', 'Action'];
   dataSource: MatTableDataSource<EmployeeContactData>;
   contactInfo: EmployeeContactData[];
-
+  loading : boolean; 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private contactInfoService: ContactinfoService, public dialog: MatDialog) {
-  }
+   this.loading = false;
+   }
 
   ngOnInit() {
     this.contactInfoService.contactListObserver.subscribe(data => {
@@ -31,6 +32,7 @@ export class ContactViewComponent implements OnInit, OnChanges {
 
   }
   getContactInfo(): void {
+    this.loading = true;
     this.contactInfoService.getContactInfo()
       .subscribe(
         data => {
@@ -40,6 +42,7 @@ export class ContactViewComponent implements OnInit, OnChanges {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.contactInfoService.setContactInfo(this.contactInfo);
+          this.loading = false;
         }, //Bind to view
         err => {
           // Log errors if any

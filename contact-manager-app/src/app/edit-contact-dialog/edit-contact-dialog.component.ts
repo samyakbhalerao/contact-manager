@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject} from '@angular/core';
 import { ContactinfoService } from '../contactinfo.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup ,Validators } from '@angular/forms';
 import { MatFormFieldControl, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EmployeeContactData } from '../model/employee.contact';
 
@@ -14,18 +14,20 @@ export class EditContactDialogComponent implements OnInit {
   contactDetailsForm: FormGroup;
   prevContactData: EmployeeContactData;
   updateCompleted:boolean;
- 
+  loading : boolean;
   constructor(private contactInfoService: ContactinfoService, public dialogRef: MatDialogRef<EditContactDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EmployeeContactData) {
     this.contactDetailsForm = new FormGroup({
-      firstName: new FormControl(data.firstName),
-      lastName: new FormControl(data.lastName),
-      contactNo: new FormControl(data.contactNo),
-      email: new FormControl(data.email),
-      //   department: new FormControl(),
-      status: new FormControl(data.status)
-    });
+      firstName: new FormControl(data.firstName,[Validators.required,Validators.minLength(1)]),
+      lastName: new FormControl(data.lastName,[Validators.required,Validators.minLength(1)]),
+      contactNo: new FormControl(data.contactNo,[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('[0-9]*')]),
+      email: new FormControl(data.email,[Validators.required]),
+      //department: new FormControl('',[Validators.required]),
+      status: new FormControl(data.status,[Validators.required])
+   });
+    
     this.prevContactData = data;
+    this.loading = false;
   }
 
   ngOnInit() {
@@ -37,13 +39,17 @@ export class EditContactDialogComponent implements OnInit {
   //save edited data
   saveEditedContact(contact: EmployeeContactData): void {
     console.log("Edited Contact:", contact);
+    this.loading = true;
+
     if (this.compareContactDetails(contact)) {
       contact._id = this.prevContactData._id;
+      this.contactDetailsForm.disable();
       this.contactInfoService.updateContactInfo(contact).subscribe(
         data => {
           console.log("Update success:", data);
           this.contactInfoService.updateCompleted(data);
-         
+          this.loading = false;
+          this.contactDetailsForm.enable();
         }, //Bind to view
         err => {
           // Log errors if any

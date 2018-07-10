@@ -92,7 +92,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".logout-btn{\n        padding: 0 14px;  \n}\n.example-spacer {\n    flex: 1 1 auto;\n  }"
+module.exports = ".logout-btn{\n        padding: 0 14px;  \n}\n.example-spacer {\n    flex: 1 1 auto;\n  }\n\n "
 
 /***/ }),
 
@@ -185,12 +185,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_gaurd__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./auth.gaurd */ "./src/app/auth.gaurd.ts");
 /* harmony import */ var _edit_contact_dialog_edit_contact_dialog_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./edit-contact-dialog/edit-contact-dialog.component */ "./src/app/edit-contact-dialog/edit-contact-dialog.component.ts");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _spinner_spinner_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./spinner/spinner.component */ "./src/app/spinner/spinner.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -217,7 +219,8 @@ var AppModule = /** @class */ (function () {
                 _dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_8__["DashboardComponent"],
                 _newcontact_newcontact_component__WEBPACK_IMPORTED_MODULE_10__["NewcontactComponent"],
                 _contact_view_contact_view_component__WEBPACK_IMPORTED_MODULE_11__["ContactViewComponent"],
-                _edit_contact_dialog_edit_contact_dialog_component__WEBPACK_IMPORTED_MODULE_13__["EditContactDialogComponent"]
+                _edit_contact_dialog_edit_contact_dialog_component__WEBPACK_IMPORTED_MODULE_13__["EditContactDialogComponent"],
+                _spinner_spinner_component__WEBPACK_IMPORTED_MODULE_15__["SpinnerComponent"]
             ],
             imports: [
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"],
@@ -326,6 +329,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuard", function() { return AuthGuard; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./authentication.service */ "./src/app/authentication.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -337,14 +341,17 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var AuthGuard = /** @class */ (function () {
-    function AuthGuard(router) {
+    function AuthGuard(router, authService) {
         this.router = router;
+        this.authService = authService;
     }
     AuthGuard.prototype.canActivate = function (route, state) {
         if (localStorage.getItem('currentUser')) {
             // logged in so return true
             console.log("canActivate");
+            this.authService.changeAuthStatus(true);
             return true;
         }
         // not logged in so redirect to login page with the return url
@@ -353,7 +360,7 @@ var AuthGuard = /** @class */ (function () {
     };
     AuthGuard = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], _authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
     ], AuthGuard);
     return AuthGuard;
 }());
@@ -441,7 +448,7 @@ module.exports = "div {\n    display: flex;\n  }\n  \n  input {\n    border: non
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"contact-view-container mat-elevation-z8\">\n  <mat-card>\n\n    <mat-card-title>\n\n    </mat-card-title>\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n    <mat-card-content>\n      <div class=\"mat-elevation-z8\">\n\n        <table mat-table [dataSource]=\"dataSource\" matSort>\n\n          <!-- ID Column -->\n          <ng-container matColumnDef=\"id\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>\n            <td mat-cell *matCellDef=\"let row; let i = index;\">\n                <span class=\"mobile-label\">ID:</span>\n              {{i+1}}\n               </td>\n          </ng-container>\n\n          <!-- Name Column -->\n          <ng-container matColumnDef=\"Name\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>\n            <td mat-cell *matCellDef=\"let row\"><span class=\"mobile-label\">Name:</span> {{row.firstName}} </td>\n          </ng-container>\n\n          <!-- Color Column -->\n          <ng-container matColumnDef=\"Email\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>\n            <td mat-cell *matCellDef=\"let row\"><span class=\"mobile-label\">Email:</span> {{row.email}} </td>\n          </ng-container>\n\n          <!-- Color Column -->\n          <ng-container matColumnDef=\"Status\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>\n            <td mat-cell *matCellDef=\"let row\"><span class=\"mobile-label\">Status:</span> {{row.status}} </td>\n          </ng-container>\n          <!-- Color Column -->\n          <ng-container matColumnDef=\"Contact No\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact No. </th>\n            <td mat-cell *matCellDef=\"let row\"><span class=\"mobile-label\">Contact No:</span> {{row.contactNo}} </td>\n          </ng-container>\n\n          <ng-container matColumnDef=\"Action\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>\n            <td mat-cell *matCellDef=\"let row;  \">\n                <span class=\"mobile-label\">Action</span>\n              <button mat-raised-button (click)=\"removeContact(row._id['$oid'])\">Delete </button>\n              <button mat-raised-button (click)=\"updateContact(row._id['$oid'])\">Edit </button>\n            </td>\n          </ng-container>\n\n          <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n          <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\">\n          </tr>\n        </table>\n      </div>\n    </mat-card-content>\n    <mat-card-actions>\n      <mat-paginator [pageSizeOptions]=\"[ 10, 25, 100]\"></mat-paginator>\n    </mat-card-actions>\n  </mat-card>\n</div>"
+module.exports = "<div class=\"contact-view-container mat-elevation-z8\">\n  <mat-card>\n\n    <mat-card-title>\n      <app-spinner *ngIf=\"loading\"></app-spinner>\n    </mat-card-title>\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n    <mat-card-content>\n      <div class=\"mat-elevation-z8\">\n        \n        <table *ngIf=\"!loading\" mat-table [dataSource]=\"dataSource\" matSort>\n\n          <!-- ID Column -->\n          <ng-container matColumnDef=\"id\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>\n            <td mat-cell *matCellDef=\"let row; let i = index;\">\n                <span class=\"mobile-label\">ID:</span>\n              {{i+1}}\n               </td>\n          </ng-container>\n\n          <!-- Name Column -->\n          <ng-container matColumnDef=\"Name\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>\n            <td mat-cell *matCellDef=\"let row\"><span class=\"mobile-label\">Name:</span> {{row.firstName}} </td>\n          </ng-container>\n\n          <!-- Color Column -->\n          <ng-container matColumnDef=\"Email\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>\n            <td mat-cell *matCellDef=\"let row\"><span class=\"mobile-label\">Email:</span> {{row.email}} </td>\n          </ng-container>\n\n          <!-- Color Column -->\n          <ng-container matColumnDef=\"Status\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>\n            <td mat-cell *matCellDef=\"let row\"><span class=\"mobile-label\">Status:</span> {{row.status}} </td>\n          </ng-container>\n          <!-- Color Column -->\n          <ng-container matColumnDef=\"Contact No\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact No. </th>\n            <td mat-cell *matCellDef=\"let row\"><span class=\"mobile-label\">Contact No:</span> {{row.contactNo}} </td>\n          </ng-container>\n\n          <ng-container matColumnDef=\"Action\">\n            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>\n            <td mat-cell *matCellDef=\"let row;  \">\n                <span class=\"mobile-label\">Action</span>\n              <button mat-raised-button color=\"warn\" (click)=\"removeContact(row._id['$oid'])\">Delete </button>\n              <button mat-raised-button  (click)=\"updateContact(row._id['$oid'])\">Edit </button>\n            </td>\n          </ng-container>\n\n          <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n          <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\">\n          </tr>\n        </table>\n      </div>\n    </mat-card-content>\n    <mat-card-actions>\n      <mat-paginator [pageSizeOptions]=\"[ 10, 25, 100]\"></mat-paginator>\n    </mat-card-actions>\n  </mat-card>\n</div>"
 
 /***/ }),
 
@@ -477,6 +484,7 @@ var ContactViewComponent = /** @class */ (function () {
         this.contactInfoService = contactInfoService;
         this.dialog = dialog;
         this.displayedColumns = ['id', 'Name', 'Email', 'Contact No', 'Status', 'Action'];
+        this.loading = false;
     }
     ContactViewComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -488,6 +496,7 @@ var ContactViewComponent = /** @class */ (function () {
     };
     ContactViewComponent.prototype.getContactInfo = function () {
         var _this = this;
+        this.loading = true;
         this.contactInfoService.getContactInfo()
             .subscribe(function (data) {
             _this.contactInfo = data;
@@ -496,6 +505,7 @@ var ContactViewComponent = /** @class */ (function () {
             _this.dataSource.paginator = _this.paginator;
             _this.dataSource.sort = _this.sort;
             _this.contactInfoService.setContactInfo(_this.contactInfo);
+            _this.loading = false;
         }, //Bind to view
         function (//Bind to view
         err) {
@@ -730,7 +740,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"edit-dialog-container\">\n<h1 mat-dialog-title>Edit Contact</h1>\n<div mat-dialog-content>\n  <div class=\"edit-contact-container\">\n    <form [formGroup]=\"contactDetailsForm\">\n      <mat-form-field>\n        <input matInput placeholder=\"First Name\" formControlName=\"firstName\" >\n      </mat-form-field>\n\n      <mat-form-field>\n        <input matInput placeholder=\"Last Name\" formControlName=\"lastName\">\n      </mat-form-field>\n      <mat-form-field>\n        <input matInput placeholder=\"Email\" formControlName=\"email\">\n      </mat-form-field>\n\n      <mat-form-field>\n        <input matInput placeholder=\"Contact No\" formControlName=\"contactNo\">\n      </mat-form-field>\n\n   <!--   <mat-form-field>\n        <input matInput placeholder=\"Department\" formControlName=\"department\">\n      </mat-form-field>-->\n      <mat-form-field>\n      <mat-select placeholder=\"Select\" formControlName=\"status\">\n        <mat-option value=\"active\">Active</mat-option>\n        <mat-option value=\"inactive\">Inactive</mat-option>\n      </mat-select>\n      </mat-form-field>\n      </form>\n  </div>\n</div>\n<div mat-dialog-actions>\n  <button mat-raised-button (click)=\"closeDialog()\">Cancel</button>\n  <button mat-raised-button [mat-dialog-close]=\"data.name\" (click)=\"saveEditedContact(contactDetailsForm.value)\" cdkFocusInitial>Save</button>\n</div>\n</div>"
+module.exports = "<div class=\"edit-dialog-container\">\n<h1 mat-dialog-title>Edit Contact <app-spinner *ngIf=\"loading\"></app-spinner></h1>\n<div mat-dialog-content>\n  <div class=\"edit-contact-container\">\n    <form [formGroup]=\"contactDetailsForm\">\n      <mat-form-field>\n        <input matInput placeholder=\"First Name\" formControlName=\"firstName\" >\n      </mat-form-field>\n\n      <mat-form-field>\n        <input matInput placeholder=\"Last Name\" formControlName=\"lastName\">\n      </mat-form-field>\n      <mat-form-field>\n        <input matInput placeholder=\"Email\" formControlName=\"email\">\n      </mat-form-field>\n\n      <mat-form-field>\n        <input matInput placeholder=\"Contact No\" formControlName=\"contactNo\">\n      </mat-form-field>\n\n   <!--   <mat-form-field>\n        <input matInput placeholder=\"Department\" formControlName=\"department\">\n      </mat-form-field>-->\n      <mat-form-field>\n      <mat-select placeholder=\"Select\" formControlName=\"status\">\n        <mat-option value=\"active\">Active</mat-option>\n        <mat-option value=\"inactive\">Inactive</mat-option>\n      </mat-select>\n      </mat-form-field>\n      </form>\n  </div>\n</div>\n<div mat-dialog-actions>\n  <button mat-raised-button (click)=\"closeDialog()\">Cancel</button>\n  <button mat-raised-button [mat-dialog-close]=\"data.name\" (click)=\"saveEditedContact(contactDetailsForm.value)\" [disabled]=\"!contactDetailsForm.valid\" >Save</button>\n</div>\n</div>"
 
 /***/ }),
 
@@ -772,14 +782,15 @@ var EditContactDialogComponent = /** @class */ (function () {
         this.dialogRef = dialogRef;
         this.data = data;
         this.contactDetailsForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
-            firstName: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.firstName),
-            lastName: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.lastName),
-            contactNo: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.contactNo),
-            email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.email),
-            //   department: new FormControl(),
-            status: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.status)
+            firstName: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.firstName, [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(1)]),
+            lastName: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.lastName, [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(1)]),
+            contactNo: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.contactNo, [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(10), _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].maxLength(10), _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].pattern('[0-9]*')]),
+            email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.email, [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]),
+            //department: new FormControl('',[Validators.required]),
+            status: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](data.status, [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required])
         });
         this.prevContactData = data;
+        this.loading = false;
     }
     EditContactDialogComponent_1 = EditContactDialogComponent;
     EditContactDialogComponent.prototype.ngOnInit = function () {
@@ -791,11 +802,15 @@ var EditContactDialogComponent = /** @class */ (function () {
     EditContactDialogComponent.prototype.saveEditedContact = function (contact) {
         var _this = this;
         console.log("Edited Contact:", contact);
+        this.loading = true;
         if (this.compareContactDetails(contact)) {
             contact._id = this.prevContactData._id;
+            this.contactDetailsForm.disable();
             this.contactInfoService.updateContactInfo(contact).subscribe(function (data) {
                 console.log("Update success:", data);
                 _this.contactInfoService.updateCompleted(data);
+                _this.loading = false;
+                _this.contactDetailsForm.enable();
             }, //Bind to view
             function (//Bind to view
             err) {
@@ -999,7 +1014,7 @@ module.exports = ".example-container {\n    display: table;\n    flex-direction:
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"new-contact-container\">\n  <mat-card>\n    <mat-card-title>\n      Create New Contact\n    </mat-card-title>\n    <mat-card-content >\n      <div class=\"example-container\">\n        <form [formGroup]=\"contactDetailsForm\">\n          <mat-form-field>\n            <input matInput placeholder=\"First Name\" formControlName=\"firstName\" >\n          </mat-form-field>\n\n          <mat-form-field>\n            <input matInput placeholder=\"Last Name\" formControlName=\"lastName\">\n          </mat-form-field>\n          <mat-form-field>\n            <input matInput placeholder=\"Email\" formControlName=\"email\">\n          </mat-form-field>\n\n          <mat-form-field>\n            <input matInput placeholder=\"Contact No\" formControlName=\"contactNo\">\n          </mat-form-field>\n\n          <mat-form-field>\n            <input matInput placeholder=\"Department\" formControlName=\"department\">\n          </mat-form-field>\n          <mat-form-field>\n          <mat-select placeholder=\"Select\" formControlName=\"status\">\n            <mat-option value=\"active\">Active</mat-option>\n            <mat-option value=\"inactive\">Inactive</mat-option>\n          </mat-select>\n          </mat-form-field>\n          </form>\n      </div>\n    </mat-card-content>\n    <mat-card-actions>\n      <button mat-raised-button (click)=\"contactDetailsForm.reset()\">\n        Clear\n      </button>\n      <button mat-raised-button (click)=\"addContact(contactDetailsForm.value)\" [disabled]=\"!contactDetailsForm.valid\">\n        Save\n      </button>\n    </mat-card-actions>\n    <mat-card-footer>\n     \n    </mat-card-footer>\n  </mat-card>\n</div>"
+module.exports = "<div class=\"new-contact-container\">\n  <mat-card>\n    <mat-card-title>\n      Create New Contact  <app-spinner *ngIf=\"loading\"></app-spinner>\n    </mat-card-title>\n    <mat-card-content >\n      <div class=\"example-container\">\n        <form [formGroup]=\"contactDetailsForm\">\n          <mat-form-field>\n            <input matInput placeholder=\"First Name\" formControlName=\"firstName\" >\n          </mat-form-field>\n\n          <mat-form-field>\n            <input matInput placeholder=\"Last Name\" formControlName=\"lastName\">\n          </mat-form-field>\n          <mat-form-field>\n            <input matInput placeholder=\"Email\" formControlName=\"email\">\n          </mat-form-field>\n\n          <mat-form-field>\n            <input matInput placeholder=\"Contact No\" formControlName=\"contactNo\">\n          </mat-form-field>\n\n          <mat-form-field>\n            <input matInput placeholder=\"Department\" formControlName=\"department\">\n          </mat-form-field>\n          <mat-form-field>\n          <mat-select placeholder=\"Select\" formControlName=\"status\">\n            <mat-option value=\"active\">Active</mat-option>\n            <mat-option value=\"inactive\">Inactive</mat-option>\n          </mat-select>\n          </mat-form-field>\n          </form>\n      </div>\n    </mat-card-content>\n    <mat-card-actions>\n      <button mat-raised-button (click)=\"contactDetailsForm.reset()\">\n        Clear\n      </button>\n      <button mat-raised-button (click)=\"addContact(contactDetailsForm.value)\" [disabled]=\"!contactDetailsForm.valid\">\n        Save\n      </button>\n     \n    </mat-card-actions>\n    <mat-card-footer>\n     \n    </mat-card-footer>\n  </mat-card>\n</div>"
 
 /***/ }),
 
@@ -1042,14 +1057,19 @@ var NewcontactComponent = /** @class */ (function () {
             department: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]),
             status: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required])
         });
+        this.loading = false;
     }
     NewcontactComponent.prototype.ngOnInit = function () {
     };
     NewcontactComponent.prototype.addContact = function (newContact) {
         var _this = this;
         console.log(this.contactDetailsForm);
+        this.contactDetailsForm.disable();
+        this.loading = true;
         this.contactInfoService.addContact(newContact).subscribe(function (res) {
             _this.contactDetailsForm.reset();
+            _this.loading = false;
+            _this.contactDetailsForm.enable();
             _this.openSnackBar("New Contact Added", "OK");
             console.log(res);
         });
@@ -1068,6 +1088,69 @@ var NewcontactComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_contactinfo_service__WEBPACK_IMPORTED_MODULE_2__["ContactinfoService"], _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatSnackBar"]])
     ], NewcontactComponent);
     return NewcontactComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/spinner/spinner.component.css":
+/*!***********************************************!*\
+  !*** ./src/app/spinner/spinner.component.css ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".app-loading {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    height: 100%;\n  }\n  .app-loading .spinner {\n    height: 50px;\n    width: 50px;\n    -webkit-animation: rotate 2s linear infinite;\n            animation: rotate 2s linear infinite;\n    -webkit-transform-origin: center center;\n            transform-origin: center center;\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: auto;\n  }\n  .app-loading .spinner .path {\n    stroke-dasharray: 1, 200;\n    stroke-dashoffset: 0;\n    -webkit-animation: dash 1.5s ease-in-out infinite;\n            animation: dash 1.5s ease-in-out infinite;\n    stroke-linecap: round;\n    stroke: #ddd;\n  }\n  @-webkit-keyframes rotate {\n    100% {\n      -webkit-transform: rotate(360deg);\n              transform: rotate(360deg);\n    }\n  }\n  @keyframes rotate {\n    100% {\n      -webkit-transform: rotate(360deg);\n              transform: rotate(360deg);\n    }\n  }\n  @-webkit-keyframes dash {\n    0% {\n      stroke-dasharray: 1, 200;\n      stroke-dashoffset: 0;\n    }\n    50% {\n      stroke-dasharray: 89, 200;\n      stroke-dashoffset: -35px;\n    }\n    100% {\n      stroke-dasharray: 89, 200;\n      stroke-dashoffset: -124px;\n    }\n  }\n  @keyframes dash {\n    0% {\n      stroke-dasharray: 1, 200;\n      stroke-dashoffset: 0;\n    }\n    50% {\n      stroke-dasharray: 89, 200;\n      stroke-dashoffset: -35px;\n    }\n    100% {\n      stroke-dasharray: 89, 200;\n      stroke-dashoffset: -124px;\n    }\n  }"
+
+/***/ }),
+
+/***/ "./src/app/spinner/spinner.component.html":
+/*!************************************************!*\
+  !*** ./src/app/spinner/spinner.component.html ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"app-loading\">\n  <div class=\"logo\"></div>\n  <svg class=\"spinner\" viewBox=\"25 25 50 50\">\n    <circle class=\"path\" cx=\"50\" cy=\"50\" r=\"20\" fill=\"none\" stroke-width=\"2\" stroke-miterlimit=\"10\"/>\n  </svg>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/spinner/spinner.component.ts":
+/*!**********************************************!*\
+  !*** ./src/app/spinner/spinner.component.ts ***!
+  \**********************************************/
+/*! exports provided: SpinnerComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpinnerComponent", function() { return SpinnerComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var SpinnerComponent = /** @class */ (function () {
+    function SpinnerComponent() {
+    }
+    SpinnerComponent.prototype.ngOnInit = function () {
+    };
+    SpinnerComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-spinner',
+            template: __webpack_require__(/*! ./spinner.component.html */ "./src/app/spinner/spinner.component.html"),
+            styles: [__webpack_require__(/*! ./spinner.component.css */ "./src/app/spinner/spinner.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], SpinnerComponent);
+    return SpinnerComponent;
 }());
 
 

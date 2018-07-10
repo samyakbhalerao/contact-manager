@@ -1,7 +1,7 @@
 <div class="new-contact-container">
   <mat-card>
     <mat-card-title>
-      Create New Contact
+      Create New Contact  <app-spinner *ngIf="loading"></app-spinner>
     </mat-card-title>
     <mat-card-content >
       <div class="example-container">
@@ -40,6 +40,7 @@
       <button mat-raised-button (click)="addContact(contactDetailsForm.value)" [disabled]="!contactDetailsForm.valid">
         Save
       </button>
+     
     </mat-card-actions>
     <mat-card-footer>
      

@@ -20,7 +20,7 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string){
-    return this.http.post('/api/v1/auth', { username: username, password: password }).
+    return this.http.post('http://localhost:3000/api/v1/auth', { username: username, password: password }).
     pipe(
       map((res: Response) => res.json()),
     );

@@ -1,5 +1,5 @@
 <div class="edit-dialog-container">
-<h1 mat-dialog-title>Edit Contact</h1>
+<h1 mat-dialog-title>Edit Contact <app-spinner *ngIf="loading"></app-spinner></h1>
 <div mat-dialog-content>
   <div class="edit-contact-container">
     <form [formGroup]="contactDetailsForm">
@@ -32,6 +32,6 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="closeDialog()">Cancel</button>
-  <button mat-raised-button [mat-dialog-close]="data.name" (click)="saveEditedContact(contactDetailsForm.value)" cdkFocusInitial>Save</button>
+  <button mat-raised-button [mat-dialog-close]="data.name" (click)="saveEditedContact(contactDetailsForm.value)" [disabled]="!contactDetailsForm.valid" >Save</button>
 </div>
 </div>
