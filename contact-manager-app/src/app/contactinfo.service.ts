@@ -6,8 +6,8 @@ import { map } from 'rxjs/operators';
 
 //All URL's for server
 const endpoints = {
-  contactList: "http://localhost:3000/api/v1/contactlist",
-  contact: "http://localhost:3000/api/v1/contact"
+  contactList: "/api/v1/contactlist",
+  contact: "/api/v1/contact"
 };
 
 @Injectable({
@@ -60,9 +60,7 @@ export class ContactinfoService {
   deleteContact(id: string): Observable<any> {
     console.log("id",id);
     return this.http.delete(endpoints.contact+`/${id}`,this.options);
-   //.pipe(
-    //  map((res:Response)=>res.json()),
-   // );
+
   }
   //Get Contact by id
   getContactById(id: string): EmployeeContactData {

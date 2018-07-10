@@ -51,7 +51,7 @@ app.post("/api/v1/auth", (req, res) => {
     options.method = "GET";
    
     request(options).then((data) =>{
-         console.log("==>",data)
+         console.log("==>",data);
          var token = jwt.sign({ id: req.body.username }, dbConfig.secret, {
             expiresIn: 86400 // expires in 24 hours
           });
@@ -130,4 +130,4 @@ app.put("/api/v1/contact", (req, res) => {
    
 });
 
-app.listen(3000);
+app.listen(8080);
